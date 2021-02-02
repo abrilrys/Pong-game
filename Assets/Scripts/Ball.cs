@@ -11,7 +11,7 @@ public class Ball : MonoBehaviour
     public float radius;
     public Vector2 direction;
     public Text scoreboard1;
-    public Text scoreboard2;
+    //public Text scoreboard2;
 
     private int Paddle1score = 0;
     private int Paddle2score = 0;
@@ -37,25 +37,33 @@ public class Ball : MonoBehaviour
 
         if (transform.position.x < GameManager.bottomLeft.x + radius && direction.x < 0)
         {
-            //Debug.Log("Right player wins!!");
-            //Time.timeScale = 0;
-            //enabled= false;
-            this.transform.position= new Vector3(0f, 0f, 0f);
-            Paddle1score++;
+           
             
+            Paddle1score++;
+            if (Paddle1score == 5)
+            {
+                Debug.Log("Right player wins!!");
+                Time.timeScale = 0;
+                enabled = false;
+            }
+            this.transform.position = new Vector3(0f, 0f, 0f);
+
         }
         if (transform.position.x > GameManager.topRight.x - radius && direction.x > 0)
         {
-            //Debug.Log("Left player wins!!");
-            //Time.timeScale = 0;
-            //enabled = false;
-            this.transform.position = new Vector3(0f, 0f, 0f);
-            Paddle2score++;
             
+            
+            Paddle2score++;
+            if (Paddle2score == 5)
+            {
+                Debug.Log("Left player wins!!");
+                Time.timeScale = 0;
+                enabled = false;
+            }
+            this.transform.position = new Vector3(0f, 0f, 0f);
         }
         print(Paddle1score + "," + Paddle2score);
-        scoreboard1.text = Paddle1score.ToString();
-        scoreboard2.text = Paddle2score.ToString();
+        scoreboard1.text = Paddle2score.ToString() + "      "+ Paddle1score.ToString();
 
     }
     void OnTriggerEnter2D(Collider2D other)

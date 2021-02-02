@@ -6,6 +6,8 @@ public class PlayGameButton : MonoBehaviour
 {
     public void play()
     {
-        SceneManager.LoadScene("Pong Game");
+       
+            SceneManager.LoadScene("Pong Game");
+        
     }
 }
