@@ -2,84 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using CodeControl;
 public class Ball : MonoBehaviour
 {
+
+    public Text scoreboard;
+    public Text scoreboard2;
+    private int score;
+    private int score2;
     [SerializeField]
     float speed;
 
     public float radius;
     public Vector2 direction;
-    public Text scoreboard1;
-    //public Text scoreboard2;
+    
+    Rigidbody2D m_Rigidbody;
 
-    private int Paddle1score = 0;
-    private int Paddle2score = 0;
     void Start()
     {
+        m_Rigidbody = GetComponent<Rigidbody2D>();
         direction = Vector2.one.normalized;
         radius = transform.localScale.x / 2;
+        m_Rigidbody.velocity = transform.right * speed;
+        score = 0;
+        scoreboard.text = score.ToString();
+        score2 = 0;
+        scoreboard2.text = score2.ToString();
+
     }
 
-    // Update is called once per frame
-    void Update()
+     void OnTriggerEnter2D(Collider2D other)
     {
-        transform.Translate(direction * speed * Time.deltaTime);
-        if (transform.position.y < GameManager.bottomLeft.y + radius && direction.y < 0)
+        this.transform.position = new Vector3(0f, 0f, 0f);
+        if (other.tag == "WallRight")
         {
-            direction.y = -direction.y;
-        }
-        if (transform.position.y > GameManager.topRight.y - radius && direction.y > 0)
-        {
-            direction.y = -direction.y;
-        }
-
-
-        if (transform.position.x < GameManager.bottomLeft.x + radius && direction.x < 0)
-        {
-           
+            Message.Send(new PointScored("Paddle1"));
             
-            Paddle1score++;
-            if (Paddle1score == 5)
-            {
-                Debug.Log("Right player wins!!");
-                Time.timeScale = 0;
-                enabled = false;
-            }
-            this.transform.position = new Vector3(0f, 0f, 0f);
-
         }
-        if (transform.position.x > GameManager.topRight.x - radius && direction.x > 0)
+        if (other.tag == "WallLeft")
         {
+            Message.Send(new PointScored("Paddle2"));
             
-            
-            Paddle2score++;
-            if (Paddle2score == 5)
-            {
-                Debug.Log("Left player wins!!");
-                Time.timeScale = 0;
-                enabled = false;
-            }
-            this.transform.position = new Vector3(0f, 0f, 0f);
         }
-        print(Paddle1score + "," + Paddle2score);
-        scoreboard1.text = Paddle2score.ToString() + "      "+ Paddle1score.ToString();
-
+       
     }
-    void OnTriggerEnter2D(Collider2D other)
-        {
-            if(other.tag== "Paddle"){
-                bool isRight = other.GetComponent<Paddle>().isRight;
-
-                if(isRight == true && direction.x > 0)
-                {
-                    direction.x = -direction.x;
-                }
-                if (isRight== false && direction.x <0)
-                {
-                    direction.x = -direction.x;
-                }
-            }
-        }
-    
 }

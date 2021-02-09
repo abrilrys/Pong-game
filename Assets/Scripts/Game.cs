@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class Game : MonoBehaviour
 {
     public Ball ball;
     public Paddle paddle;

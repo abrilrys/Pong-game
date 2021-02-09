@@ -8,6 +8,9 @@ TagManager:
   - Paddle
   - scoreboard1
   - scoreboard2
+  - Trigger
+  - WallRight
+  - WallLeft
   layers:
   - Default
   - TransparentFX
